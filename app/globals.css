@@ -1,26 +1,145 @@
 @import "tailwindcss";
 
+@theme {
+  --font-sans: var(--font-inter), sans-serif;
+  
+  --color-teal-primary: #0D9E75;
+  --color-navy-dark: #0A2540;
+  --color-coral-cta: #FF6B6B;
+  --color-bg-offwhite: #F7FAFB;
+  --color-text-dark: #1A1A2E;
+  --color-muted-gray: #6B7280;
+  
+  --color-teal-light: #E6F5F1;
+  --color-navy-light: #16365C;
+  --color-coral-hover: #FF8585;
+  --color-teal-hover: #0B8562;
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --background: #F7FAFB;
+  --foreground: #1A1A2E;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  overflow-x: hidden;
+}
+
+/* Transitions */
+.transition-all-custom {
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Animations & Scroll Effects */
+.reveal {
+  opacity: 0;
+  transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, opacity;
+}
+
+.reveal.active {
+  opacity: 1;
+  transform: translate(0, 0) scale(1) !important;
+}
+
+.reveal-fade-up {
+  transform: translateY(25px);
+}
+
+.reveal-slide-left {
+  transform: translateX(-40px);
+}
+
+.reveal-slide-right {
+  transform: translateX(40px);
+}
+
+/* Hero Slide In on Load (Immediate) */
+@keyframes slideInLeftImmediate {
+  from {
+    opacity: 0;
+    transform: translateX(-40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-slide-left-immediate {
+  animation: slideInLeftImmediate 0.38s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* CTA Pulse Animation */
+@keyframes ctaPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 107, 107, 0.5);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(255, 107, 107, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 107, 107, 0);
+  }
+}
+
+.animate-cta-pulse {
+  animation: ctaPulse 2s infinite;
+}
+
+.animate-cta-pulse:hover {
+  animation: none;
+  transform: scale(1.03);
+  box-shadow: 0 4px 12px rgba(255, 107, 107, 0.35);
+}
+
+/* Services Card Lift Hover Effect */
+.card-hover-lift {
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card-hover-lift:hover {
+  transform: scale(1.03) translateY(-4px);
+  box-shadow: 0 12px 24px -10px rgba(10, 37, 64, 0.15);
+}
+
+/* Testimonial Star Staggered Fade */
+@keyframes starFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.star-anim {
+  opacity: 0;
+  animation: starFadeIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+/* Prefers Reduced Motion settings */
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .animate-slide-left-immediate,
+  .animate-cta-pulse,
+  .card-hover-lift,
+  .star-anim {
+    animation: none !important;
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .card-hover-lift:hover {
+    transform: none !important;
+    box-shadow: none !important;
+  }
+  .animate-cta-pulse:hover {
+    transform: none !important;
+    box-shadow: none !important;
+  }
 }
